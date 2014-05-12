@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<style>
+body, html { width: 100%; height: 100%; overflow: hidden; background-color: black; }
+.vimrole { width: 100px; height: 100px; position: absolute; border: 0px; }
+</style>
+<script>
+$(function() {
+  $.getJSON('http://vim-jp.herokuapp.com/vimmers?callback=?', function(data) {
+    $.each(data, function(i, e) {
+      if (!e.logo && !e.twitter_icon) return;
+      var divsize = 100;
+      var posx = (Math.random() * ($('body').width() - divsize)).toFixed();
+      var posy = (Math.random() * ($('body').height() - divsize)).toFixed();
+      $('<img/>').addClass('vimrole').attr({
+        'src': e.logo || e.twitter_icon
+      }).css({
+          'left': posx + 'px',
+          'top': posy + 'px'
+      }).appendTo('body');
+    });
+    var n = document.getElementById('sprite');
+    var r = 0, s = 1;
+    setInterval(function() {
+      var trans = 'rotate(' + r + 'deg) scale(' + s + ',' + s + ')';
+      $('.vimrole').css({
+        '-moz-transform': trans,
+        '-webkit-transform': trans,
+        '-ie-transform': trans,
+        'transform:': trans
+      });
+      r += .5; s += .01;
+    }, 100);
+  });
+});
+</script>
+</head>
+<body>
+</body>
+
