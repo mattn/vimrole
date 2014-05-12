@@ -6,13 +6,14 @@
 <style>
 body, html { width: 100%; height: 100%; overflow: hidden; background-color: black; }
 .vimrole { width: 100px; height: 100px; position: absolute; border: 0px; }
+.vimrole2 { width: 200px; height: 200px; position: absolute; border: 0px; }
 </style>
 <script>
 $(function() {
   $.getJSON('http://vim-jp.herokuapp.com/vimmers?callback=?', function(data) {
+    var divsize = 100;
     $.each(data, function(i, e) {
       if (!e.logo && !e.twitter_icon) return;
-      var divsize = 100;
       var posx = (Math.random() * ($('body').width() - divsize)).toFixed();
       var posy = (Math.random() * ($('body').height() - divsize)).toFixed();
       $('<img/>').addClass('vimrole').attr({
@@ -22,11 +23,25 @@ $(function() {
           'top': posy + 'px'
       }).appendTo('body');
     });
+    divsize *= 2;
+    $('<img/>').addClass('vimrole2').attr({
+      'src': 'https://1.gravatar.com/avatar/6a4f5a57f6afbcff5bb4f69935cdc3db?d=https%3A%2F%2Fidenticons.github.com%2F0df634d9492c741eb699cdf87b9ab281.png&s=140'
+    }).css({
+        'left': (($('body').width() - divsize) / 2).toFixed() + 'px',
+        'top': (($('body').height() - divsize) / 2).toFixed() + 'px'
+    }).appendTo('body');
     var n = document.getElementById('sprite');
     var r = 0, s = 1;
     setInterval(function() {
       var trans = 'rotate(' + r + 'deg) scale(' + s + ',' + s + ')';
       $('.vimrole').css({
+        '-moz-transform': trans,
+        '-webkit-transform': trans,
+        '-ie-transform': trans,
+        'transform:': trans
+      });
+      trans = 'rotate(' + (-r) + 'deg) scale(' + s + ',' + s + ')';
+      $('.vimrole2').css({
         '-moz-transform': trans,
         '-webkit-transform': trans,
         '-ie-transform': trans,
